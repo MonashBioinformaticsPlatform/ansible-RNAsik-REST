@@ -1,0 +1,13 @@
+# The name of the application, uses to create application directory, e.g.
+# should be a shorthand, lowercase and not contain any whitespaces.
+app_name: rnasik-rest
+
+# The list of system packages required to build/run application.
+app_packages:
+- git
+- build-essential
+- python-dev
+- python-virtualenv
+
+# The user to run application.
+app_user: "root"
