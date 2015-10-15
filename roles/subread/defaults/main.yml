@@ -1,0 +1,11 @@
+version: "1.4.6-p3"
+
+app_user: root
+
+# The directory to keep application source code.
+app_directory: "/home/{{ app_user }}"
+
+source_dir: "{{ app_directory }}/source"
+soft_dir: "{{ app_directory }}"
+
+extra_path: "{{ soft_dir}}/subread-{{version}}-Linux-x86_64/bin"

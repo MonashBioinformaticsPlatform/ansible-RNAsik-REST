@@ -1,0 +1,33 @@
+---
+- file: path="{{ source_dir }}" state=directory mode=0755
+
+- name: Download Picard
+  get_url:
+    url=https://github.com/broadinstitute/picard/releases/download/{{version}}/picard-tools-{{version}}.zip
+    dest={{source_dir}}/picard-tools-{{version}}.zip
+
+- name: Uncompress Picard
+  unarchive: 
+    src: "{{ source_dir }}/picard-tools-{{version}}.zip"
+    dest: "{{ soft_dir }}"
+    copy: no
+    creates: "{{ soft_dir }}/picard-tools-{{version}}/picard.jar"
+
+- file: dest="{{ soft_dir }}/picard-tools-{{version}}/bin" state=directory mode=0755
+
+- name: Picard wrapper script
+  template:
+    src: templates/java-wrapper.sh.j2
+    dest: "{{ soft_dir }}/picard-tools-{{version}}/bin/picard"
+    owner: root 
+    mode: 0755
+  with_items:
+    - { jar: '{{ soft_dir }}/picard-tools-{{version}}/picard.jar' }
+    
+- name: add {{extra_path}} to path
+  lineinfile: >
+    dest=/etc/environment
+    state=present
+    backrefs=yes
+    regexp='PATH=(["]*)((?!.*?{{extra_path}}).*?)(["]*)$'
+    line="PATH=\1\2:{{extra_path}}\3"

@@ -1,0 +1,26 @@
+---
+- file: path="{{ source_dir }}" state=directory mode=0755
+
+- file: dest="{{ soft_dir }}/RNA-SeQC_v{{version}}" state=directory mode=0755
+
+- name: Download RNA-SeQC
+  get_url:
+    url=http://www.broadinstitute.org/cancer/cga/tools/rnaseqc/RNA-SeQC_v{{version}}.jar
+    dest={{ soft_dir }}/RNA-SeQC_v{{version}}/RNA-SeQC_v{{version}}.jar
+
+- name: RNA-SeQC wrapper script
+  template:
+    src: templates/java-wrapper.sh.j2
+    dest: "{{ soft_dir }}/RNA-SeQC_v{{version}}/rna-seqc"
+    owner: root 
+    mode: 0755
+  with_items:
+    - { jar: '{{ soft_dir }}/RNA-SeQC_v{{version}}/RNA-SeQC_v{{version}}.jar' }
+
+- name: add {{extra_path}} to path
+  lineinfile: >
+    dest=/etc/environment
+    state=present
+    backrefs=yes
+    regexp='PATH=(["]*)((?!.*?{{extra_path}}).*?)(["]*)$'
+    line="PATH=\1\2:{{extra_path}}\3"

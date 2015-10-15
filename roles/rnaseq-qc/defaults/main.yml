@@ -1,0 +1,11 @@
+version: "1.1.8"
+
+app_user: root
+
+# The directory to keep application source code.
+app_directory: "/home/{{ app_user }}"
+
+source_dir: "{{ app_directory }}/source"
+soft_dir: "{{ app_directory }}"
+
+extra_path: "{{ soft_dir }}/RNA-SeQC_v{{version}}"

@@ -1,0 +1,22 @@
+---
+- file: path="{{ source_dir }}" state=directory mode=0755
+
+- name: Download Subread
+  get_url:
+    url=http://tenet.dl.sourceforge.net/project/subread/subread-{{version}}/subread-{{version}}-Linux-x86_64.tar.gz
+    dest={{source_dir}}/SPAdes-{{version}}-Linux.tar.gz
+
+- name: Uncompress Subread
+  unarchive: 
+    src={{ source_dir }}/SPAdes-{{version}}-Linux.tar.gz 
+    dest={{ soft_dir }}
+    copy=no
+    creates={{ soft_dir}}/subread-{{version}}-Linux-x86_64/bin/featureCount
+
+- name: add {{extra_path}} to path
+  lineinfile: >
+    dest=/etc/environment
+    state=present
+    backrefs=yes
+    regexp='PATH=(["]*)((?!.*?{{extra_path}}).*?)(["]*)$'
+    line="PATH=\1\2:{{extra_path}}\3"

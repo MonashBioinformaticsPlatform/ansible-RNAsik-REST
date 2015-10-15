@@ -1,3 +1,7 @@
 ---
 dependencies:
 - { role: bigdatascript }
+- { role: star }
+- { role: picard }
+- { role: rnaseq-qc }
+- { role: subread }

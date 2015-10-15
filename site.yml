@@ -14,7 +14,10 @@
     - rest
 
 - name: rnasik
-  hosts: all 
+  hosts: all
+  
+  pre_tasks:
+    - apt: name=unzip state=present
     
   roles:
     - rnasik-pipe

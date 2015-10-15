@@ -1,0 +1,20 @@
+---
+- file: path="{{ source_dir }}" state=directory mode=0755
+
+- name: Download STAR
+  git: repo=https://github.com/alexdobin/STAR
+       dest={{source_dir}}/STAR-{{version}}
+       version=STAR_{{version}}
+
+- name: Install STAR
+  shell: cd {{ source_dir }}/STAR-{{version}}/bin/Linux_x86_64_static; mkdir -p "{{ soft_dir }}/STAR-{{version}}/bin" && cp STAR STARlong "{{ soft_dir }}/STAR-{{version}}/bin"
+  args:
+    creates: "{{ soft_dir }}/STAR-{{version}}/bin/STAR"
+
+- name: add {{extra_path}} to path
+  lineinfile: >
+    dest=/etc/environment
+    state=present
+    backrefs=yes
+    regexp='PATH=(["]*)((?!.*?{{extra_path}}).*?)(["]*)$'
+    line="PATH=\1\2:{{extra_path}}\3"
