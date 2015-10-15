@@ -30,7 +30,7 @@ Then run it (and log into it at the same time)
 
 `docker run -it monashbioinformaticsplatform/rnasik:0.1 bash`
 
-And `exit` to exit the Docker container. Find the name of the container you ran using `docker ps -a` and reconnect to it with `docker attach <container_name>`
+And `exit` to exit the Docker container. Find the name of the container you ran using `docker ps -a` and reconnect to it with `docker attach _container_name_`
 
 ### Build the docker image and run it
 
@@ -59,7 +59,7 @@ I'll leave this to you :) Learn about Ansible!
 
 ## Usage
 
-Currently, apps are strewn about in `/home/root` on the Docker image (or /home/<yourusername> for non-docker).
+Currently, apps are strewn about in `/home/root` on the Docker image (or /home/_yourusername_ for non-docker).
 
 I've written $PATHs to a file, so if you `source /etc/environment` in the Docker container you'll be able to execute all the tools.
 
