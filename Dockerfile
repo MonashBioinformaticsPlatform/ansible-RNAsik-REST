@@ -12,4 +12,4 @@ RUN echo localhost > inventory
 
 # ==> Executing Ansible...
 RUN ansible-playbook -i inventory site.yml \
-      --connection=local --sudo
+      --connection=local --sudo -vvvv

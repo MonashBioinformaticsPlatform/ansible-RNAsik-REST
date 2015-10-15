@@ -2,14 +2,18 @@
 - file: path="{{ source_dir }}" state=directory mode=0755
 
 - name: Download STAR
-  git: repo=https://github.com/alexdobin/STAR
-       dest={{source_dir}}/STAR-{{version}}
-       version=STAR_{{version}}
+  get_url:
+    url=https://github.com/alexdobin/STAR/archive/STAR_{{version}}.tar.gz
+    dest={{source_dir}}/STAR-{{version}}.tar.gz
 
-- name: Install STAR
-  shell: cd {{ source_dir }}/STAR-{{version}}/bin/Linux_x86_64_static; mkdir -p "{{ soft_dir }}/STAR-{{version}}/bin" && cp STAR STARlong "{{ soft_dir }}/STAR-{{version}}/bin"
-  args:
-    creates: "{{ soft_dir }}/STAR-{{version}}/bin/STAR"
+- name: Uncompress STAR
+  unarchive: 
+    src={{ source_dir }}/STAR-{{version}}.tar.gz
+    dest={{ soft_dir }}
+    copy=no
+    creates={{ soft_dir }}/STAR-STAR_{{version}}/bin/Linux_x86_64_static/STARlong
+    
+- copy: src={{ soft_dir }}/STAR-STAR_{{version}}/bin/Linux_x86_64_static/STARlong dest={{ soft_dir }}/STAR-STAR_{{version}}/bin/STAR
 
 - name: add {{extra_path}} to path
   lineinfile: >
