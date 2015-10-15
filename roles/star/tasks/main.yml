@@ -14,6 +14,7 @@
     creates={{ soft_dir }}/STAR-STAR_{{version}}/bin/Linux_x86_64_static/STARlong
     
 - copy: src={{ soft_dir }}/STAR-STAR_{{version}}/bin/Linux_x86_64_static/STARlong dest={{ soft_dir }}/STAR-STAR_{{version}}/bin/STAR
+- file: path={{ soft_dir }}/STAR-STAR_{{version}}/bin/STAR mode=0755
 
 - name: add {{extra_path}} to path
   lineinfile: >
