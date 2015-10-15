@@ -1,0 +1,25 @@
+---
+- file: path="{{ source_dir }}" state=directory mode=0755
+
+- name: Download BigDataScript
+  #  url=https://github.com/pcingola/BigDataScript/archive/v{{version}}.tar.gz
+  get_url:
+    url=http://bioinformatics.erc.monash.edu/home/steve/host/rnasik-kirill-v{{version}}.tar.gz
+    dest={{source_dir}}/bds_Linux-{{version}}.tgz
+
+- file: dest="{{soft_dir}}/BigDataScript-{{version}}" state=directory mode=0755
+
+- name: Uncompress BigDataScript
+  unarchive: 
+    src: "{{ source_dir }}/bds_Linux-{{version}}.tgz"
+    dest: "{{soft_dir}}/BigDataScript-{{version}}"
+    copy: no
+    creates: "{{soft_dir}}/BigDataScript-{{version}}/.bds/bds"
+
+- name: add {{extra_path}} to path
+  lineinfile: >
+    dest=/etc/environment
+    state=present
+    backrefs=yes
+    regexp='PATH=(["]*)((?!.*?{{extra_path}}).*?)(["]*)$'
+    line="PATH=\1\2:{{extra_path}}\3"

@@ -9,3 +9,15 @@
     
   roles:
     - flask
+    
+  tags:
+    - rest
+
+- name: rnasik
+  hosts: all 
+    
+  roles:
+    - rnasik-pipe
+    
+  tags:
+    - cmd

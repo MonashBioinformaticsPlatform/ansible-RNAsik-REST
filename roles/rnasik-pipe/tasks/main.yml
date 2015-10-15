@@ -1,0 +1,22 @@
+---
+- file: path="{{ source_dir }}" state=directory mode=0755
+
+# temp for now since kirill's rnasik wants bds to be in his home dir
+- file: path="/home/kirill/" state=directory mode=0755
+- name: Create symlink to kirill bds
+  file: src="{{ app_directory }}/BigDataScript-0.999b/.bds" dest="/home/kirill/.bds" state=link
+
+# RNAsik-pipe-version1.1
+- name: Git Clone RNAsik-pipe
+  git: repo=https://github.com/monashbioinformaticsplatform/RNAsik-pipe.git
+       dest={{ soft_dir }}
+       version={{version}}
+       update=no
+       
+- name: add {{extra_path}} to path
+  lineinfile: >
+    dest=/etc/environment
+    state=present
+    backrefs=yes
+    regexp='PATH=(["]*)((?!.*?{{extra_path}}).*?)(["]*)$'
+    line="PATH=\1\2:{{extra_path}}\3"

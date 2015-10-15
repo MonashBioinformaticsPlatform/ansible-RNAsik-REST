@@ -1,0 +1,5 @@
+[all:vars]
+env=docker
+
+[servers]
+localhost ansible_connection=local
