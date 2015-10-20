@@ -24,11 +24,11 @@ https://hub.docker.com/r/monashbioinformaticsplatform/rnasik/tags/
 
 Install Docker on your machine (google it!). Then..
 
-`docker pull monashbioinformaticsplatform/rnasik:0.1.1`
+`docker pull monashbioinformaticsplatform/rnasik:0.2`
 
 Then run it (and log into it at the same time)
 
-`docker run -it monashbioinformaticsplatform/rnasik:0.1.1 bash`
+`docker run -it monashbioinformaticsplatform/rnasik:0.2 bash`
 
 And `exit` to exit the Docker container. Find the name of the container you ran using `docker ps -a` and reconnect to it with `docker attach _container_name_`
 
