@@ -1,0 +1,30 @@
+---
+- file: path="{{ source_dir }}" state=directory mode=0755
+
+- apt: name=libncurses5-dev state=present
+- apt: name=libncursesw5-dev state=present
+
+- name: Download samtools
+  get_url:
+    url=https://github.com/samtools/samtools/archive/{{version}}.tar.gz
+    dest={{source_dir}}/samtools-{{version}}.tar.gz
+
+- name: Uncompress samtools
+  unarchive: 
+    src: "{{ source_dir }}/samtools-{{version}}.tar.gz"
+    dest: "{{ source_dir }}"
+    copy: no
+    creates: "{{ source_dir }}/samtools-{{version}}/README"
+
+- name: Build and Install samtools
+  shell: cd {{ source_dir }}/samtools-{{version}}; make install prefix="{{ soft_dir }}/samtools-{{version}}" HTSDIR="../htslib-{{htslib_version}}"
+  args:
+    creates: "{{ soft_dir }}/samtools-{{version}}/bin/samtools"
+    
+- name: add {{extra_path}} to path
+  lineinfile: >
+    dest=/etc/environment
+    state=present
+    backrefs=yes
+    regexp='PATH=(["]*)((?!.*?{{extra_path}}).*?)(["]*)$'
+    line="PATH=\1\2:{{extra_path}}\3"

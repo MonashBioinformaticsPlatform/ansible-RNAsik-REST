@@ -5,3 +5,4 @@ dependencies:
 - { role: picard }
 - { role: rnaseq-qc }
 - { role: subread }
+- { role: samtools }

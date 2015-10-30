@@ -1,0 +1,29 @@
+---
+- file: path="{{ source_dir }}" state=directory mode=0755
+
+- apt: name=zlib1g-dev state=present
+
+- name: Download htslib
+  get_url:
+    url=https://github.com/samtools/htslib/archive/{{version}}.tar.gz
+    dest={{source_dir}}/htslib-{{version}}.tar.gz
+
+- name: Uncompress htslib
+  unarchive: 
+    src: "{{ source_dir }}/htslib-{{version}}.tar.gz"
+    dest: "{{ source_dir }}"
+    copy: no
+    creates: "{{ source_dir }}/htslib-{{version}}/README"
+
+- name: Build and Install htslib
+  shell: cd {{ source_dir }}/htslib-{{version}}; make install prefix="{{ soft_dir }}/htslib-{{version}}"
+  args:
+    creates: "{{ soft_dir }}/htslib-{{version}}/bin/tabix"
+    
+- name: add {{extra_path}} to path
+  lineinfile: >
+    dest=/etc/environment
+    state=present
+    backrefs=yes
+    regexp='PATH=(["]*)((?!.*?{{extra_path}}).*?)(["]*)$'
+    line="PATH=\1\2:{{extra_path}}\3"
