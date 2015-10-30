@@ -40,7 +40,7 @@ There's a convience script script that works on an *empty* Ubuntu instance (eg. 
 
 Know what you're doing before running this and run it on an empty machine!
 
-`curl -s https://gist.githubusercontent.com/steveandroulakis/f7eaa4ff40518420e591/raw/96396748fb0a9c4a703ee1a4f8ac65f649ae51bf/install_rnasik.sh | bash /dev/stdin`
+`curl -s https://gist.githubusercontent.com/steveandroulakis/f7eaa4ff40518420e591/raw/f8b817ec6f03505e4730d3de34fd5674fe517b88/install_rnasik.sh | bash /dev/stdin`
 
 
 ### Build the docker image and run it
